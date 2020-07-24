@@ -8,20 +8,20 @@ body {
 }
 
 h2{
-  border-left: 6px solid blue;
+  border-left: 6px solid green;
   background-color: lightgrey;
   font-size: 2rem;
 }
 
 input{
-  border-left: 6px solid blue;
+  border-left: 6px solid green;
   font-size: 1rem;
   margin: 0.5rem;
   padding: 0.5rem;
 }
 
 button{
-  border-left: 6px solid blue;
+  border-left: 6px solid green;
   font-size: 1rem;
   margin: 0.5rem;
   padding: 0.5rem;
@@ -30,11 +30,28 @@ button{
 }
 
 .heading th{
-  border-left: 6px solid blue;
+  border-left: 6px solid green;
   background-color: lightgrey;
   font-size: 1rem;
   padding: 0.5rem;
 
+}
+
+.btndlt{
+  border-left: 6px solid red !important;
+  font-size: 1rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  width: 10rem;
+}
+.btnupd{
+  border-left: 6px solid blue !important;
+  font-size: 1rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  width: 10rem;
 }
 
 code {

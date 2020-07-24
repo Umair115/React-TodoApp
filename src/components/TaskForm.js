@@ -3,22 +3,39 @@ import React, { Component } from 'react'
 
 
 class TaskForm extends Component {
-    constructor(){
-        super();
-        // var today = new Date();
-        // created_at = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        
-    }
+    
     state = {
-        'task_id' : '',
-        'task_name' : '',
-        'task_description' : '',
-        'created_at' : '',
-        // 'updated_at' : today.getDate()+"-"+today.getMonth()+1+"-"+"-"+today.getYear(),
+        ...this.returnStateObject()
+    }
+    
+
+    returnStateObject(){
+        if (this.props.currentIndex == -1){
+           return  {
+            'task_id' : '',
+            'task_name' : '',
+            'task_description' : '',
+            'completed' : '',
+            'created_at' : '',
+        }
+        }
+        else{
+            return this.props.list[this.props.currentIndex]
+        }
     }
 
     componentWillMount() {
         this.initialState = this.state
+    }
+
+    componentDidUpdate(prevProps){
+        // console.log(prevProps);
+
+        if(prevProps.currentIndex != this.props.currentIndex || prevProps.list.length != this.props.list.length ){ 
+        this.setState({
+            ...this.returnStateObject()
+        })
+    }
     }
 
     changeHandler = e => {
@@ -45,6 +62,7 @@ class TaskForm extends Component {
                 <form onSubmit={this.submitHandler} autoComplete="off">
                     <input name='task_name' placeholder="Enter Task Name" value={this.state.task_name} onChange={this.changeHandler}/> <br/>
                     <input name='task_description' placeholder="Enter Task Description" value={this.state.task_description} onChange={this.changeHandler}/> <br/>
+                    <input name='completed' placeholder="Completed OR Pending" value={this.state.completed} onChange={this.changeHandler}/> <br/>
                     <button type="submit">Submit</button>
                 </form>
             </div>
