@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 // import moment from "react-moment";
-
+// import connect from 'react-redux' 
+import {connect} from 'react-redux'
+import * as actions from '../actions/taskActions';
+import { bindActionCreators } from 'redux';
 
 class TaskForm extends Component {
     
@@ -47,12 +50,18 @@ class TaskForm extends Component {
     
 
     submitHandler = e => {
-        e.preventDefault();
-        this.props.onAddOrEdit(this.state)
-        this.setState(
-            this.initialState
-        )
-        console.log(this.state)
+        if(this.props.currentIndex == -1){
+            this.props.insertTransaction(this.state)
+        }
+        else{
+            this.props.updateTransaction(this.state)
+        }
+        // e.preventDefault();
+        // this.props.onAddOrEdit(this.state)
+        // this.setState(
+        //     this.initialState
+        // )
+        // console.log(this.state)
     }
 
     render() {
@@ -70,4 +79,17 @@ class TaskForm extends Component {
     }
 }
 
-export default TaskForm;
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        insertTransaction : actions.insert,
+        updateTransaction : actions.update
+    },dispatch)
+}
+
+const mapStateToProps = state => {
+    return{
+        list: state.list,
+        currentIndex: state.currentIndex
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(TaskForm);

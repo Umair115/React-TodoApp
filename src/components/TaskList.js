@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import TaskForm from './TaskForm'
+import {connect} from 'react-redux'
+import * as actions from '../actions/taskActions';
+import { bindActionCreators } from 'redux';
 
 class TaskList extends Component {
     state = {
@@ -29,16 +32,18 @@ class TaskList extends Component {
 
     handleEdit = index => {
         // console.log(index)
-        this.setState({currentIndex : index})
+        // this.setState({currentIndex : index})
+        this.props.updateIndex(index)
         
     }
 
     handleDelete = index => {
-        var list = this.returnList()
-        this.setState({currentIndex : index})
-        list.splice(index,1)
-        localStorage.setItem('tasks',JSON.stringify(list))
-        this.setState({ list,currentIndex: -1 })
+        this.props.deleteTransaction(index)
+        // var list = this.returnList()
+        // this.setState({currentIndex : index})
+        // list.splice(index,1)
+        // localStorage.setItem('tasks',JSON.stringify(list))
+        // this.setState({ list,currentIndex: -1 })
     }
 
     // componentDidMount(){
@@ -58,11 +63,7 @@ class TaskList extends Component {
     render() {
         return (
             <div>
-                <TaskForm 
-                onAddOrEdit={this.onAddOrEdit}
-                currentIndex= {this.state.currentIndex}
-                list={this.state.list}
-                />
+                <TaskForm />
                 <hr/>
                 <h2>List Of Current Tasks</h2>
                 <table width="100%">
@@ -80,7 +81,7 @@ class TaskList extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.list.map((item,index) => {
+                            this.props.list.map((item,index) => {
                                 return <tr>
                                     <td>{index}</td>
                                     <td>{item.task_name}</td>
@@ -99,4 +100,17 @@ class TaskList extends Component {
         )
     }
 }
-export default TaskList;
+
+const mapDispatchToProps = dispatch => {
+    return bindActionCreators({
+        deleteTransaction : actions.Delete,
+        updateIndex: actions.updateIndex
+    },dispatch)
+}
+
+const mapStateToProps = state => {
+    return{
+        list: state.list
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(TaskList);
